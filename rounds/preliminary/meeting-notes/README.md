@@ -14,6 +14,7 @@
 - `meeting-summaries/meeting-summary-batch-01.md`：第一轮会议总结。
 - `meeting-summaries/official-livestream-problem-solving-guide-2026-07-03.md`：官方线上破题指南整理。
 - `my-speaking-outlines/first-meeting-brief.md`：第一轮个人发言提纲。
+- `my-speaking-outlines/evening-meeting-discussion-outline-2026-07-03.md`：晚间会议会前讨论大纲，聚焦官方指南校准和 AI 应用问题清单。
 
 ## 使用规则
 
