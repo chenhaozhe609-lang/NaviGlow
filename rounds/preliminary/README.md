@@ -10,7 +10,7 @@
 - 正文长度：不超过 8 页 PPT。
 - 截止时间：2026-07-09 23:59。
 - 语言：中文或英文，当前工作更偏中文表达。
-- 品牌选择：YSL Beauty。
+- 品牌选择：YSL Beauty，已锁定。
 - 核心定位：YSL Beauty as China's Gen Z high-end self-expression co-creator。
 - 核心 AI 口径：AI should amplify YSL's brand personality as an Attitude Curator, not replace it with a generic tool。
 
@@ -26,6 +26,7 @@
 ## 关键文件
 
 - `task-files/analysis/competition-context.md`：赛题总览和评审标准。
+- `task-files/analysis/ysl-beauty-selection-evaluation-zh.md`：YSL Beauty 选择依据与战略判断。
 - `meeting-notes/meeting-summaries/official-livestream-problem-solving-guide-2026-07-03.md`：官方线上破题指南。
 - `meeting-notes/meeting-summaries/meeting-summary-batch-01.md`：第一轮会议总结。
 - `decision-records/strategy-direction/decision-brand-positioning-ysl-beauty.md`：品牌选择记录。
@@ -34,10 +35,11 @@
 - `data/processed/slide-03-ysl-opportunities-challenges.md`：Slide 3 YSL 机会与挑战素材。
 - `slides/information-architecture/ysl-slide-information-architecture-zh.md`：当前 slide 信息架构。
 - `slides/deliverables/current/ysl-slide-02-03-current.html`：当前 Slide 2-3 工作原型。
+- `task-files/archive/brand-selection/`：候选品牌扫描归档，仅用于复盘品牌选择。
 
 ## 目录说明
 
-- `task-files/`：官方题目、邀请函和赛题分析。
+- `task-files/`：官方题目、邀请函、赛题分析和已归档的品牌选择材料。
 - `meeting-notes/`：会议记录、官方直播速记、个人发言提纲。
 - `decision-records/`：重要方向选择及其理由。
 - `data/`：原始证据、处理后的研究结论、方法指南。
@@ -56,5 +58,4 @@
 
 ## 给下一次 Codex 的接力提示
 
-优先检查本文件、官方破题指南和两个 strategy-direction decision records。当前不要把方案写成 AI 试妆、AI 推荐、AI 内容生成的功能包；要用咨询式逻辑回答关系为什么需要升级、YSL 的品牌人格如何被 AI 放大、消费者在什么节点主动发起关系、品牌如何回应、最终如何沉淀为可衡量的品牌资产和增长。
-
+优先检查本文件、官方破题指南和两个 strategy-direction decision records。品牌已经锁定为 YSL Beauty，不要再把工作重心放在候选品牌比较上。当前不要把方案写成 AI 试妆、AI 推荐、AI 内容生成的功能包；要用咨询式逻辑回答关系为什么需要升级、YSL 的品牌人格如何被 AI 放大、消费者在什么节点主动发起关系、品牌如何回应、最终如何沉淀为可衡量的品牌资产和增长。
