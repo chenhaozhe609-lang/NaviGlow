@@ -1,0 +1,931 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Navigrow · 第一次会议发言提纲</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Noto+Serif+SC:wght@300;400;500;600;700;900&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500;1,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #142f22;
+      --ink-rgb: 20, 47, 34;
+      --ink-soft: #203f2f;
+      --paper: #f6f0df;
+      --paper-rgb: 246, 240, 223;
+      --paper-deep: #e8dfc9;
+      --moss: #82906b;
+      --gold: #b99f64;
+      --line-dark: rgba(20, 47, 34, .26);
+      --line-light: rgba(246, 240, 223, .26);
+      --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+      --serif-en: "Playfair Display", Georgia, serif;
+      --serif-zh: "Noto Serif SC", "Songti SC", serif;
+      --sans-zh: "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: var(--ink);
+      color: var(--paper);
+      font-family: var(--sans-zh);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at 82% 18%, rgba(130, 144, 107, .28), transparent 24vw),
+        radial-gradient(circle at 12% 82%, rgba(185, 159, 100, .16), transparent 26vw),
+        linear-gradient(135deg, #0e251b 0%, #173827 48%, #0e241b 100%);
+    }
+
+    #deck {
+      position: fixed;
+      inset: 0;
+      width: 800vw;
+      height: 100vh;
+      z-index: 10;
+      display: flex;
+      flex-wrap: nowrap;
+      transition: transform .82s cubic-bezier(.77, 0, .175, 1);
+      will-change: transform;
+    }
+
+    .slide {
+      width: 100vw;
+      height: 100vh;
+      flex: 0 0 100vw;
+      position: relative;
+      overflow: hidden;
+      padding: 6vh 6vw 8vh;
+      display: flex;
+      flex-direction: column;
+      color: var(--paper);
+    }
+
+    .slide.dark {
+      background:
+        radial-gradient(circle at 82% 18%, rgba(130, 144, 107, .28), transparent 24vw),
+        radial-gradient(circle at 12% 82%, rgba(185, 159, 100, .16), transparent 26vw),
+        linear-gradient(135deg, #0e251b 0%, #173827 48%, #0e241b 100%);
+    }
+
+    .slide.light {
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 72% 20%, rgba(130, 144, 107, .22), transparent 22vw),
+        radial-gradient(circle at 10% 88%, rgba(185, 159, 100, .14), transparent 24vw),
+        linear-gradient(135deg, #f7f1df 0%, #efe7d3 58%, #f9f4e6 100%);
+    }
+
+    .slide::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .slide.dark::before {
+      background:
+        linear-gradient(180deg, rgba(var(--ink-rgb), .72), rgba(var(--ink-rgb), .84)),
+        repeating-linear-gradient(90deg, rgba(var(--paper-rgb), .045) 0 1px, transparent 1px 4vw);
+      backdrop-filter: blur(4px);
+    }
+
+    .slide.light::before {
+      background:
+        linear-gradient(180deg, rgba(var(--paper-rgb), .82), rgba(var(--paper-rgb), .74)),
+        repeating-linear-gradient(90deg, rgba(var(--ink-rgb), .045) 0 1px, transparent 1px 4vw);
+      backdrop-filter: blur(4px);
+    }
+
+    .chrome,
+    .foot {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      opacity: .88;
+      position: relative;
+      z-index: 2;
+    }
+
+    .slide:not(.hero) .chrome {
+      opacity: .62;
+    }
+
+    .foot {
+      margin-top: auto;
+      align-items: flex-end;
+      opacity: .66;
+    }
+
+    .slide:not(.hero) .foot {
+      opacity: .46;
+    }
+
+    .chrome .left,
+    .chrome .right {
+      display: flex;
+      gap: 2.4em;
+      align-items: center;
+    }
+
+    .sep {
+      width: 42px;
+      height: 1px;
+      background: currentColor;
+      opacity: .72;
+    }
+
+    .kicker {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      opacity: .82;
+      margin-bottom: 2.4vh;
+    }
+
+    .display {
+      font-family: var(--serif-zh);
+      font-size: clamp(58px, 7.6vw, 124px);
+      line-height: 1.03;
+      letter-spacing: 0;
+      font-weight: 800;
+      max-width: 82vw;
+    }
+
+    .h-xl {
+      font-family: var(--serif-zh);
+      font-size: clamp(42px, 5.3vw, 84px);
+      line-height: 1.12;
+      font-weight: 750;
+      max-width: 78vw;
+    }
+
+    .h-md {
+      font-family: var(--serif-zh);
+      font-size: clamp(24px, 2.4vw, 40px);
+      line-height: 1.25;
+      font-weight: 650;
+    }
+
+    .lead {
+      font-family: var(--serif-zh);
+      font-size: clamp(22px, 2vw, 34px);
+      line-height: 1.5;
+      font-weight: 400;
+      opacity: .9;
+      max-width: 60vw;
+    }
+
+    .body {
+      font-size: clamp(15px, 1.16vw, 20px);
+      line-height: 1.75;
+      opacity: .88;
+    }
+
+    .frame {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-top: 4vh;
+      position: relative;
+      z-index: 1;
+    }
+
+    .frame.narrative {
+      justify-content: flex-start;
+      padding-top: 8vh;
+    }
+
+    .bottom-left {
+      position: absolute;
+      left: 6vw;
+      bottom: 13vh;
+      max-width: 62vw;
+    }
+
+    .ghost {
+      position: absolute;
+      right: -3vw;
+      bottom: -5vh;
+      font-family: var(--serif-en);
+      font-weight: 800;
+      font-size: 35vw;
+      line-height: .8;
+      letter-spacing: -.04em;
+      opacity: .055;
+      pointer-events: none;
+    }
+
+    .rule {
+      height: 1px;
+      width: 100%;
+      background: currentColor;
+      opacity: .28;
+      margin: 3vh 0;
+    }
+
+    .callout {
+      padding: 3vh 2.3vw;
+      border-left: 3px solid currentColor;
+      font-family: var(--serif-zh);
+      font-size: clamp(17px, 1.35vw, 24px);
+      line-height: 1.62;
+    }
+
+    .dark .callout { background: rgba(var(--paper-rgb), .06); }
+    .callout { background: rgba(var(--paper-rgb), .06); }
+    .light .callout { background: rgba(var(--ink-rgb), .055); }
+
+    .callout-src {
+      display: block;
+      margin-top: 1.7vh;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      opacity: .7;
+    }
+
+    .grid-5 {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1.3vw;
+      align-items: stretch;
+      margin-top: 5vh;
+    }
+
+    .relation-note {
+      margin-top: 4vh;
+      max-width: 52vw;
+      font-family: var(--serif-zh);
+      font-size: clamp(20px, 1.65vw, 30px);
+      line-height: 1.55;
+      opacity: .86;
+    }
+
+    .level {
+      min-height: 36vh;
+      padding: 2.4vh 1.4vw;
+      border-top: 1px solid currentColor;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      opacity: .86;
+    }
+
+    .level.active {
+      opacity: 1;
+      background: rgba(var(--paper-rgb), .075);
+    }
+
+    .light .level.active {
+      background: rgba(var(--ink-rgb), .055);
+    }
+
+    .level .n {
+      font-family: var(--serif-en);
+      font-size: clamp(40px, 4vw, 72px);
+      line-height: .9;
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    .level h3 {
+      font-family: var(--serif-zh);
+      font-size: clamp(24px, 2vw, 34px);
+      margin-top: 2vh;
+      margin-bottom: 1.2vh;
+    }
+
+    .level p {
+      font-size: clamp(13px, 1vw, 17px);
+      line-height: 1.58;
+      opacity: .86;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4vw;
+      margin-top: 5vh;
+    }
+
+    .pillar {
+      border-top: 1px solid currentColor;
+      padding-top: 2.6vh;
+      min-height: 32vh;
+    }
+
+    .pillar .meta {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      opacity: .65;
+      margin-bottom: 2vh;
+    }
+
+    .pillar p {
+      margin-top: 1.5vh;
+      font-size: clamp(15px, 1.14vw, 20px);
+      line-height: 1.65;
+      opacity: .88;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5vw;
+      align-items: center;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .brand-panel {
+      min-height: 53vh;
+      padding: 3.2vh 2.5vw;
+      border-left: 3px solid currentColor;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .brand-panel.dim {
+      opacity: .63;
+    }
+
+    .brand-panel .tag {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: .24em;
+      text-transform: uppercase;
+      opacity: .78;
+    }
+
+    .brand-panel h3 {
+      font-family: var(--serif-en);
+      font-size: clamp(42px, 4vw, 70px);
+      line-height: .98;
+      font-weight: 700;
+      letter-spacing: -.02em;
+      margin: 2vh 0;
+    }
+
+    .pill-row {
+      display: flex;
+      gap: 9px;
+      flex-wrap: wrap;
+      margin-top: 2.4vh;
+    }
+
+    .pill {
+      border: 1px solid currentColor;
+      padding: 7px 10px;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      opacity: .8;
+    }
+
+    .equation {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      gap: 2vw;
+      align-items: center;
+      margin-top: 5vh;
+      padding: 5vh 3vw;
+      background: rgba(var(--paper-rgb), .07);
+    }
+
+    .light .equation {
+      background: rgba(var(--ink-rgb), .055);
+    }
+
+    .eq-item {
+      font-family: var(--serif-zh);
+      font-size: clamp(26px, 2.6vw, 44px);
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .eq-symbol {
+      font-family: var(--serif-en);
+      font-style: italic;
+      font-size: clamp(28px, 3.4vw, 56px);
+      opacity: .48;
+    }
+
+    .rowline {
+      display: grid;
+      grid-template-columns: 1fr 2fr 1fr;
+      gap: 2vw;
+      align-items: center;
+      padding: 2.3vh 0;
+      border-top: 1px solid currentColor;
+      border-color: rgba(127, 127, 127, .34);
+    }
+
+    .rowline:last-child { border-bottom: 1px solid currentColor; border-color: rgba(127, 127, 127, .34); }
+
+    .rowline .k {
+      font-family: var(--serif-zh);
+      font-size: clamp(25px, 2vw, 36px);
+      font-weight: 700;
+    }
+
+    .rowline .v {
+      font-size: clamp(15px, 1.13vw, 20px);
+      line-height: 1.64;
+      opacity: .9;
+    }
+
+    .rowline .m {
+      justify-self: end;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      opacity: .7;
+    }
+
+    .consensus {
+      display: grid;
+      grid-template-columns: .78fr 1.22fr;
+      gap: 5vw;
+      align-items: center;
+      flex: 1;
+    }
+
+    .big-num {
+      font-family: var(--serif-en);
+      font-size: 26vw;
+      line-height: .76;
+      font-weight: 800;
+      opacity: .12;
+    }
+
+    .question {
+      display: grid;
+      grid-template-columns: 4.2vw 1fr;
+      gap: 1.7vw;
+      padding: 2.7vh 0;
+      border-top: 1px solid currentColor;
+      border-color: rgba(127, 127, 127, .34);
+      align-items: start;
+      font-family: var(--serif-zh);
+      font-size: clamp(24px, 2.1vw, 38px);
+      line-height: 1.32;
+      font-weight: 600;
+    }
+
+    .question:last-child {
+      border-bottom: 1px solid currentColor;
+      border-color: rgba(127, 127, 127, .34);
+    }
+
+    .question span {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: .18em;
+      color: var(--gold);
+      padding-top: .8vh;
+    }
+
+    #nav {
+      position: fixed;
+      left: 50%;
+      bottom: 2.7vh;
+      transform: translateX(-50%);
+      z-index: 30;
+      display: flex;
+      gap: 10px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, .18);
+      backdrop-filter: blur(12px);
+    }
+
+    #nav .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      border: 0;
+      padding: 0;
+      cursor: pointer;
+      background: rgba(255, 255, 255, .32);
+      transition: all .25s ease;
+    }
+
+    #nav .dot.active {
+      width: 24px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .94);
+    }
+
+    body.nav-light #nav {
+      background: rgba(255, 255, 255, .42);
+    }
+
+    body.nav-light #nav .dot {
+      background: rgba(var(--ink-rgb), .24);
+    }
+
+    body.nav-light #nav .dot.active {
+      background: rgba(var(--ink-rgb), .86);
+    }
+
+    #hint {
+      position: fixed;
+      right: 3vw;
+      bottom: 3vh;
+      z-index: 30;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: #aaa;
+      mix-blend-mode: difference;
+    }
+
+    .highlight { color: var(--gold); }
+
+    @media (max-width: 900px) {
+      .slide { padding: 5vh 6vw 9vh; overflow-y: auto; }
+      .display { font-size: 13vw; }
+      .h-xl { font-size: 9vw; }
+      .lead { max-width: 88vw; font-size: 5vw; }
+      .bottom-left { position: static; margin-top: auto; max-width: 88vw; }
+      .grid-5, .grid-3, .split, .consensus, .equation {
+        grid-template-columns: 1fr;
+      }
+      .equation { gap: 2vh; }
+      .eq-symbol { display: none; }
+      .rowline { grid-template-columns: 1fr; }
+      .rowline .m { justify-self: start; }
+      .brand-panel { min-height: auto; }
+    }
+  </style>
+</head>
+<body>
+  <div id="deck">
+    <section class="slide dark hero" data-theme="dark" data-screen-label="01 Opening">
+      <div class="chrome">
+        <div class="left"><span>Preliminary Round</span><span class="sep"></span><span>First Team Meeting</span></div>
+        <div class="right"><span>01 / 08</span></div>
+      </div>
+      <div class="bottom-left">
+        <div class="kicker">Brand-Consumer Relationship</div>
+        <h1 class="display">品牌用户关系，不是触达，是心理位置。</h1>
+        <div class="rule"></div>
+        <p class="lead">先定义关系，再讨论品牌选择，最后统一战略底稿。</p>
+      </div>
+      <div class="ghost">01</div>
+      <div class="foot">
+        <div>Navigrow · L'Oreal Case Preparation</div>
+        <div>Forest Ink Draft</div>
+      </div>
+    </section>
+
+    <section class="slide light" data-theme="light" data-screen-label="02 Definition">
+      <div class="chrome">
+        <div class="left"><span>Section 1</span><span class="sep"></span><span>Definition</span></div>
+        <div class="right"><span>02 / 08</span></div>
+      </div>
+      <div class="frame narrative">
+        <div class="kicker">§ 1.1 · 关系的本质</div>
+        <h2 class="h-xl">品牌关系不是“知道你”，也不是“买过你”。</h2>
+        <div class="callout" style="max-width:68vw; margin-top:5vh">
+          真正的品牌关系，是用户在某个需求、情绪或身份场景中，会不会自然想到这个品牌，并愿意把它放进自己的生活选择里。
+          <span class="callout-src">Relationship = psychological position</span>
+        </div>
+      </div>
+      <div class="foot">
+        <div>Page 02 · From transaction to meaning</div>
+        <div>Definition</div>
+      </div>
+    </section>
+
+    <section class="slide light" data-theme="light" data-screen-label="03 Ladder">
+      <div class="chrome">
+        <div class="left"><span>Section 1</span><span class="sep"></span><span>Relationship Ladder</span></div>
+        <div class="right"><span>03 / 08</span></div>
+      </div>
+      <div class="frame narrative">
+        <div class="kicker">§ 1.2 · 五层关系</div>
+        <h2 class="h-xl">从“买过你”到“和你一起定义意义”。</h2>
+        <p class="relation-note">越往后，品牌越不只是提供产品，而是在消费者的生活解释、身份表达和意义生产中占据位置。</p>
+        <div class="grid-5">
+          <div class="level"><div><div class="n">01</div><h3>交易</h3></div><p>我需要一个产品，所以买你。</p></div>
+          <div class="level"><div><div class="n">02</div><h3>信任</h3></div><p>我相信你的品质、功效、审美或服务稳定可靠。</p></div>
+          <div class="level"><div><div class="n">03</div><h3>习惯</h3></div><p>我不需要每次重新比较，你已经成为默认选择。</p></div>
+          <div class="level active"><div><div class="n">04</div><h3>身份</h3></div><p>使用你能表达我是谁，或我想成为谁。</p></div>
+          <div class="level active"><div><div class="n">05</div><h3>共创</h3></div><p>我不只是接受品牌定义，而是参与意义和内容的生成。</p></div>
+        </div>
+      </div>
+      <div class="foot">
+        <div>Page 03 · Relationship depth</div>
+        <div>交易 → 共创</div>
+      </div>
+    </section>
+
+    <section class="slide light" data-theme="light" data-screen-label="04 Good Relationship">
+      <div class="chrome">
+        <div class="left"><span>Section 1</span><span class="sep"></span><span>What Good Looks Like</span></div>
+        <div class="right"><span>04 / 08</span></div>
+      </div>
+      <div class="frame narrative">
+        <div class="kicker">§ 1.3 · 优秀关系的判断标准</div>
+        <h2 class="h-xl">优秀关系不是高频触达，而是稳定占据一个场景。</h2>
+        <div class="grid-3">
+          <div class="pillar">
+            <div class="meta">Scene</div>
+            <h3 class="h-md">明确场景</h3>
+            <p>用户知道什么时候该想起你。品牌不是万能答案，而是某个时刻的自然选择。</p>
+          </div>
+          <div class="pillar">
+            <div class="meta">Promise</div>
+            <h3 class="h-md">稳定承诺</h3>
+            <p>用户相信你能持续兑现某种价值，减少选择成本和心理不确定性。</p>
+          </div>
+          <div class="pillar">
+            <div class="meta">Participation</div>
+            <h3 class="h-md">参与空间</h3>
+            <p>用户不是被动接受叙事，而是能通过品牌表达自己、被看见、被回应。</p>
+          </div>
+        </div>
+      </div>
+      <div class="foot">
+        <div>Page 04 · Scene / promise / participation</div>
+        <div>Relationship Quality</div>
+      </div>
+    </section>
+
+    <section class="slide light" data-theme="light" data-screen-label="05 Brand Choice">
+      <div class="chrome">
+        <div class="left"><span>Section 2</span><span class="sep"></span><span>Brand Choice</span></div>
+        <div class="right"><span>05 / 08</span></div>
+      </div>
+      <div class="frame narrative">
+        <div class="kicker">§ 2.1 · 初步选择</div>
+        <h2 class="h-xl">首推 3CE，备选理肤泉。</h2>
+        <div class="split" style="margin-top:4vh">
+          <div class="brand-panel">
+            <div>
+              <div class="tag">Recommended · Creative Differentiation</div>
+              <h3>3CE<br>Stylenanda</h3>
+              <p class="body">更适合做有记忆点的关系重构：彩妆天然连接风格、社交表达、拍照分享和年轻人的身份探索。</p>
+            </div>
+            <div class="pill-row">
+              <span class="pill">风格共创</span>
+              <span class="pill">Z 世代</span>
+              <span class="pill">社交传播</span>
+              <span class="pill">审美伙伴</span>
+            </div>
+          </div>
+          <div class="brand-panel dim">
+            <div>
+              <div class="tag">Backup · Consulting Robustness</div>
+              <h3>La Roche-<br>Posay</h3>
+              <p class="body">更适合稳健咨询路线：皮肤科学、敏感肌信任和长期陪伴，能连接复购、组合护理和专业内容体系。</p>
+            </div>
+            <div class="pill-row">
+              <span class="pill">长期陪伴</span>
+              <span class="pill">科学信任</span>
+              <span class="pill">皮肤焦虑</span>
+              <span class="pill">复购逻辑</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="foot">
+        <div>Page 05 · Brand hypothesis, not final decision</div>
+        <div>3CE / LRP</div>
+      </div>
+    </section>
+
+    <section class="slide light" data-theme="light" data-screen-label="06 Thesis">
+      <div class="chrome">
+        <div class="left"><span>Section 3</span><span class="sep"></span><span>Strategic Thesis</span></div>
+        <div class="right"><span>06 / 08</span></div>
+      </div>
+      <div class="frame narrative">
+        <div class="kicker">§ 3.1 · 核心矛盾</div>
+        <h2 class="h-xl">不是 AI 如何提效，而是 AI 如何重构关系。</h2>
+        <div class="equation">
+          <div class="eq-item">规模化<br>品牌体系</div>
+          <div class="eq-symbol">×</div>
+          <div class="eq-item">个体化<br>美妆身份</div>
+          <div class="eq-symbol">=</div>
+          <div class="eq-item"><span class="highlight">关系断裂</span></div>
+        </div>
+        <div class="callout" style="max-width:68vw; margin-top:4vh">
+          欧莱雅拥有强大的品牌矩阵、渠道能力和数据基础，但 Z 世代的美妆决策越来越个体化、圈层化、情绪化和共创化。
+          <span class="callout-src">Core tension</span>
+        </div>
+      </div>
+      <div class="foot">
+        <div>Page 06 · From reach to relationship</div>
+        <div>Strategic Thesis</div>
+      </div>
+    </section>
+
+    <section class="slide light" data-theme="light" data-screen-label="07 AI Role">
+      <div class="chrome">
+        <div class="left"><span>Section 3</span><span class="sep"></span><span>AI Role</span></div>
+        <div class="right"><span>07 / 08</span></div>
+      </div>
+      <div class="frame narrative">
+        <div class="kicker">§ 3.2 · AI 的战略角色</div>
+        <h2 class="h-xl">AI 应被定义为品牌关系基础设施。</h2>
+        <div style="margin-top:5vh">
+          <div class="rowline">
+            <div class="k">动态理解</div>
+            <div class="v">理解用户当下的状态，而不是只给用户贴静态标签。</div>
+            <div class="m">Understand</div>
+          </div>
+          <div class="rowline">
+            <div class="k">个性共创</div>
+            <div class="v">帮助用户生成属于自己的妆容、内容、方案和表达。</div>
+            <div class="m">Co-create</div>
+          </div>
+          <div class="rowline">
+            <div class="k">长期沉淀</div>
+            <div class="v">把互动沉淀为风格偏好、肤质变化、场景需求、内容反应和购买周期。</div>
+            <div class="m">Compound</div>
+          </div>
+        </div>
+      </div>
+      <div class="foot">
+        <div>Page 07 · AI as relationship infrastructure</div>
+        <div>Understand / Co-create / Compound</div>
+      </div>
+    </section>
+
+    <section class="slide dark" data-theme="dark" data-screen-label="08 Consensus">
+      <div class="chrome">
+        <div class="left"><span>Meeting Close</span><span class="sep"></span><span>Consensus</span></div>
+        <div class="right"><span>08 / 08</span></div>
+      </div>
+      <div class="consensus">
+        <div class="big-num">3</div>
+        <div>
+          <div class="kicker">§ 4.0 · 会议希望达成的共识</div>
+          <div class="question"><span>01</span><p>我们如何定义“品牌用户关系”？</p></div>
+          <div class="question"><span>02</span><p>我们倾向选择哪个品牌，为什么它最适合做关系重构？</p></div>
+          <div class="question"><span>03</span><p>我们是否接受“AI 作为品牌关系基础设施”这条战略主线？</p></div>
+        </div>
+      </div>
+      <div class="foot">
+        <div>Next · Research / report structure / slide narrative</div>
+        <div>— End —</div>
+      </div>
+    </section>
+  </div>
+
+  <div id="nav"></div>
+  <div id="hint">← / → to navigate · Esc overview</div>
+
+  <script>
+    const deck = document.getElementById('deck');
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const nav = document.getElementById('nav');
+    let index = 0;
+    let lock = false;
+
+    deck.style.width = `${slides.length * 100}vw`;
+
+    slides.forEach((slide, i) => {
+      const dot = document.createElement('button');
+      dot.className = 'dot';
+      dot.type = 'button';
+      dot.setAttribute('aria-label', `Slide ${i + 1}`);
+      dot.addEventListener('click', () => go(i));
+      nav.appendChild(dot);
+    });
+
+    function syncTheme() {
+      const theme = slides[index].dataset.theme || 'dark';
+      document.body.classList.toggle('nav-light', theme === 'light');
+      nav.querySelectorAll('.dot').forEach((dot, i) => dot.classList.toggle('active', i === index));
+    }
+
+    function go(next) {
+      if (lock) return;
+      index = Math.max(0, Math.min(slides.length - 1, next));
+      deck.style.transform = `translateX(${-index * 100}vw)`;
+      syncTheme();
+      lock = true;
+      setTimeout(() => { lock = false; }, 650);
+    }
+
+    let overviewOn = false;
+    const overview = document.createElement('div');
+    overview.id = 'overview';
+    overview.style.cssText = 'position:fixed;inset:0;z-index:100;background:rgba(20,47,34,.92);backdrop-filter:blur(12px);display:none;overflow-y:auto;padding:4vh 4vw';
+    document.body.appendChild(overview);
+
+    function buildOverview() {
+      overview.innerHTML = '';
+      const grid = document.createElement('div');
+      grid.style.cssText = 'display:grid;grid-template-columns:repeat(4,1fr);gap:2vh 1.4vw;max-width:92vw;margin:0 auto';
+      slides.forEach((slide, i) => {
+        const card = document.createElement('button');
+        card.type = 'button';
+        card.style.cssText = 'cursor:pointer;border:1px solid rgba(246,240,223,.22);background:rgba(246,240,223,.06);padding:0;color:#f6f0df;text-align:left';
+        const title = slide.dataset.screenLabel || `Slide ${i + 1}`;
+        card.innerHTML = `<div style="aspect-ratio:16/9;display:grid;place-items:center;border-bottom:1px solid rgba(246,240,223,.18);font-family:var(--serif-zh);font-size:2vw">${String(i + 1).padStart(2, '0')}</div><div style="padding:12px 14px;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase">${title}</div>`;
+        card.addEventListener('click', () => { toggleOverview(); go(i); });
+        grid.appendChild(card);
+      });
+      overview.appendChild(grid);
+    }
+
+    function toggleOverview() {
+      overviewOn = !overviewOn;
+      if (overviewOn) {
+        buildOverview();
+        overview.style.display = 'block';
+      } else {
+        overview.style.display = 'none';
+      }
+    }
+
+    window.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        toggleOverview();
+        return;
+      }
+      if (overviewOn) return;
+      if (event.key === 'ArrowRight' || event.key === 'PageDown' || event.key === ' ' || event.key === 'ArrowDown') {
+        event.preventDefault();
+        go(index + 1);
+      }
+      if (event.key === 'ArrowLeft' || event.key === 'PageUp' || event.key === 'ArrowUp') {
+        event.preventDefault();
+        go(index - 1);
+      }
+      if (event.key === 'Home') {
+        event.preventDefault();
+        go(0);
+      }
+      if (event.key === 'End') {
+        event.preventDefault();
+        go(slides.length - 1);
+      }
+    });
+
+    let wheelAccumulator = 0;
+    let wheelTimer = null;
+    window.addEventListener('wheel', (event) => {
+      if (overviewOn) return;
+      wheelAccumulator += event.deltaY + event.deltaX;
+      if (Math.abs(wheelAccumulator) > 60) {
+        go(index + (wheelAccumulator > 0 ? 1 : -1));
+        wheelAccumulator = 0;
+      }
+      clearTimeout(wheelTimer);
+      wheelTimer = setTimeout(() => { wheelAccumulator = 0; }, 160);
+    }, { passive: true });
+
+    let touchX = 0;
+    let touchY = 0;
+    window.addEventListener('touchstart', (event) => {
+      touchX = event.touches[0].clientX;
+      touchY = event.touches[0].clientY;
+    }, { passive: true });
+    window.addEventListener('touchend', (event) => {
+      if (overviewOn) return;
+      const dx = event.changedTouches[0].clientX - touchX;
+      const dy = event.changedTouches[0].clientY - touchY;
+      if (Math.abs(dx) > 52 && Math.abs(dx) > Math.abs(dy)) {
+        go(index + (dx < 0 ? 1 : -1));
+      }
+    }, { passive: true });
+
+    go(0);
+  </script>
+</body>
+</html>

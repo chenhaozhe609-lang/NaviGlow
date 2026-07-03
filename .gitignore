@@ -1,0 +1,40 @@
+# Local Codex/session state
+.codex/
+
+# Dependency and build caches
+node_modules/
+.next/
+dist/
+build/
+coverage/
+.cache/
+
+# Logs and local env
+*.log
+*.err.log
+.env
+.env.*
+
+# Browser automation profiles and caches
+rounds/**/temporary/
+**/chrome-profile*/
+**/chrome-profile-*/
+**/chrome-profile-capture/
+**/chrome-profile-one-shot/
+**/Crashpad/
+**/ShaderCache/
+**/GrShaderCache/
+**/GPUCache/
+**/GPUPersistentCache/
+**/Code Cache/
+**/Service Worker/
+**/Session Storage/
+**/Local Storage/
+**/Cache/
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+desktop.ini
+*.tmp
+*.temp

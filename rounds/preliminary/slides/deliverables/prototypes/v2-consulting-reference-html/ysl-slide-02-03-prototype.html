@@ -1,0 +1,2397 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>YSL Beauty Slide 02-03 Prototype</title>
+  <style>
+    :root {
+      --navy: #0d2a55;
+      --blue: #315eb3;
+      --light-blue: #dfe8f8;
+      --mid-blue: #6f93d4;
+      --ink: #101820;
+      --muted: #8a9099;
+      --line: #b8c0cb;
+      --dash: #bfc4cc;
+      --bg: #eef2f4;
+      --red: #8a1538;
+      --green: #1f6f63;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scrollbar-width: none;
+    }
+
+    html::-webkit-scrollbar,
+    body::-webkit-scrollbar {
+      display: none;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Arial, "Microsoft YaHei", "PingFang SC", sans-serif;
+      padding: 0;
+      scrollbar-width: none;
+    }
+
+    .deck {
+      display: grid;
+      gap: 0;
+      justify-items: center;
+    }
+
+    .slide {
+      position: relative;
+      width: 1600px;
+      height: 900px;
+      background: #fbfcfd;
+      border: 1px solid #cad2da;
+      box-shadow: 0 12px 28px rgba(24, 34, 45, 0.12);
+      overflow: hidden;
+      padding: 18px 22px 32px;
+    }
+
+    .progress {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      height: 28px;
+      font-size: 17px;
+      font-weight: 700;
+      color: #c4c9d1;
+      white-space: nowrap;
+    }
+
+    .progress .active {
+      color: var(--blue);
+    }
+
+    .progress .sep {
+      color: #b8bec7;
+      font-weight: 600;
+    }
+
+    .title {
+      margin: 0;
+      color: var(--navy);
+      font-size: 34px;
+      line-height: 1.18;
+      letter-spacing: 0;
+      font-weight: 800;
+      max-width: 1510px;
+    }
+
+    .title-rule {
+      margin-top: 8px;
+      height: 3px;
+      background: var(--blue);
+      width: 100%;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      min-height: 46px;
+      border-bottom: 2px solid var(--mid-blue);
+    }
+
+    .section-title .num {
+      width: 46px;
+      height: 46px;
+      background: var(--blue);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 26px;
+      line-height: 1;
+      font-weight: 800;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      color: var(--ink);
+      font-size: 28px;
+      line-height: 1.1;
+      font-weight: 800;
+    }
+
+    .content-2 {
+      display: grid;
+      grid-template-columns: 1.06fr 0.94fr;
+      gap: 26px;
+      height: 690px;
+      padding: 22px 16px 0;
+    }
+
+    .content-2 > .left {
+      padding-right: 22px;
+      border-right: 3px dashed var(--dash);
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: 1fr 48px 1fr 48px 1fr;
+      align-items: stretch;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .flow-card {
+      border: 2px solid #d3d9e3;
+      min-height: 365px;
+      padding: 16px 15px;
+      background: #fbfcfd;
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+    }
+
+    .flow-card.primary {
+      border-color: var(--blue);
+      background: #f7faff;
+    }
+
+    .flow-card.ai {
+      border-color: var(--green);
+      background: #f8fbfa;
+    }
+
+    .flow-label {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .flow-card h3 {
+      margin: 8px 0 16px;
+      color: var(--navy);
+      font-size: 24px;
+      line-height: 1.15;
+      font-weight: 800;
+    }
+
+    .flow-card ul,
+    .bullet-list {
+      margin: 0;
+      padding-left: 20px;
+      font-size: 18px;
+      line-height: 1.38;
+    }
+
+    .flow-card li,
+    .bullet-list li {
+      margin-bottom: 12px;
+    }
+
+    .arrow {
+      color: var(--blue);
+      font-size: 42px;
+      font-weight: 800;
+      display: grid;
+      place-items: center;
+    }
+
+    .mini-chart {
+      margin-top: 12px;
+      border: 2px solid #d3d9e3;
+      padding: 16px;
+      min-height: 248px;
+    }
+
+    .bar-row {
+      display: grid;
+      grid-template-columns: 112px 1fr 54px;
+      align-items: center;
+      gap: 12px;
+      margin: 15px 0;
+      font-size: 17px;
+    }
+
+    .bar-bg {
+      position: relative;
+      height: 24px;
+      background: #e9edf2;
+    }
+
+    .bar-fill {
+      position: absolute;
+      inset: 0 auto 0 0;
+      background: var(--blue);
+    }
+
+    .bar-fill.muted { background: #879bbf; }
+    .bar-fill.green { background: var(--green); }
+
+    .stat-note {
+      margin-top: 18px;
+      border: 2px dashed var(--dash);
+      padding: 12px 16px;
+      font-size: 20px;
+      line-height: 1.35;
+      font-weight: 700;
+      color: var(--navy);
+      text-align: center;
+    }
+
+    .callout {
+      margin-top: 18px;
+      border: 2px dashed var(--blue);
+      padding: 12px 16px;
+      font-size: 20px;
+      line-height: 1.35;
+      color: #101820;
+      background: #fbfdff;
+    }
+
+    .matrix {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      height: 500px;
+      margin-top: 18px;
+    }
+
+    .matrix-col {
+      border: 2px solid #d4dae3;
+      padding: 18px 18px 16px;
+    }
+
+    .matrix-col.opportunity { border-top: 8px solid var(--green); }
+    .matrix-col.challenge { border-top: 8px solid var(--red); }
+
+    .matrix-col h3 {
+      margin: 0 0 18px;
+      color: var(--navy);
+      font-size: 27px;
+      line-height: 1.15;
+      font-weight: 800;
+    }
+
+    .insight {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 10px;
+      padding: 13px 0;
+      border-top: 1px solid #dfe3e8;
+    }
+
+    .insight:first-of-type { border-top: 0; padding-top: 0; }
+
+    .icon-box {
+      width: 32px;
+      height: 32px;
+      background: var(--blue);
+      color: #fff;
+      font-weight: 800;
+      display: grid;
+      place-items: center;
+      font-size: 17px;
+    }
+
+    .opportunity .icon-box { background: var(--green); }
+    .challenge .icon-box { background: var(--red); }
+
+    .insight b {
+      display: block;
+      font-size: 21px;
+      line-height: 1.2;
+      margin-bottom: 5px;
+    }
+
+    .insight span {
+      display: block;
+      color: #4f5661;
+      font-size: 17px;
+      line-height: 1.35;
+    }
+
+    .quote-wall {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .quote {
+      min-height: 74px;
+      border: 1px solid #ccd4df;
+      background: #f7f9fc;
+      color: var(--navy);
+      padding: 12px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 18px;
+      line-height: 1.28;
+      font-weight: 800;
+    }
+
+    .bottom-claim {
+      margin-top: 14px;
+      border: 2px dashed var(--blue);
+      padding: 12px 18px;
+      font-size: 22px;
+      line-height: 1.3;
+      text-align: center;
+      font-weight: 700;
+    }
+
+    .footer {
+      position: absolute;
+      left: 32px;
+      right: 32px;
+      bottom: 12px;
+      color: #a0a5ad;
+      font-size: 13px;
+      line-height: 1.25;
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: flex-end;
+    }
+
+    .slide2-grid {
+      height: 690px;
+      padding: 22px 16px 0;
+      display: grid;
+      grid-template-rows: 456px 188px;
+      gap: 18px;
+    }
+
+    .slide2-grid .section-title {
+      margin-bottom: 16px;
+    }
+
+    .flow-wide {
+      display: grid;
+      grid-template-columns: 1fr 46px 1fr 46px 1fr;
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .flow-wide .flow-card {
+      min-height: 330px;
+    }
+
+    .flow-wide .arrow {
+      align-self: center;
+      height: 100%;
+    }
+
+    .evidence-band {
+      display: grid;
+      grid-template-columns: 0.95fr 1.4fr 1.05fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .metric-box {
+      border: 2px solid #d3d9e3;
+      padding: 14px 16px;
+      background: #fff;
+    }
+
+    .metric-title {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-weight: 800;
+      font-size: 15px;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .metric-row {
+      display: grid;
+      grid-template-columns: 104px 1fr 52px;
+      align-items: center;
+      gap: 10px;
+      margin: 10px 0;
+      font-size: 15px;
+      line-height: 1.15;
+    }
+
+    .metric-row .bar-bg {
+      height: 20px;
+    }
+
+    .proof-box {
+      border: 2px dashed var(--dash);
+      padding: 13px 16px;
+      background: #fbfdff;
+    }
+
+    .proof-box h3 {
+      margin: 0 0 8px;
+      font-size: 21px;
+      line-height: 1.2;
+      color: var(--navy);
+    }
+
+    .proof-box p {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.35;
+    }
+
+    .evidence-mini {
+      border: 2px solid #d3d9e3;
+      padding: 13px 16px;
+      background: #fff;
+    }
+
+    .evidence-mini ul {
+      margin: 0;
+      padding-left: 18px;
+      font-size: 16px;
+      line-height: 1.35;
+    }
+
+    .evidence-mini li {
+      margin-bottom: 7px;
+    }
+
+    .slide3-grid {
+      height: 690px;
+      padding: 22px 16px 0;
+      display: grid;
+      grid-template-rows: 120px 394px 120px;
+      gap: 16px;
+    }
+
+    .tension-bar {
+      display: grid;
+      grid-template-columns: 1fr 0.92fr 1fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .tension-cell {
+      border: 2px solid #d3d9e3;
+      background: #fff;
+      padding: 14px 18px;
+      display: grid;
+      align-content: center;
+    }
+
+    .tension-cell.op {
+      border-left: 8px solid var(--green);
+    }
+
+    .tension-cell.ch {
+      border-left: 8px solid var(--red);
+    }
+
+    .tension-cell.mid {
+      border: 2px dashed var(--blue);
+      text-align: center;
+      background: #fbfdff;
+    }
+
+    .tension-cell .label {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .tension-cell b {
+      color: var(--navy);
+      font-size: 22px;
+      line-height: 1.22;
+    }
+
+    .tension-cell.mid b {
+      font-size: 24px;
+    }
+
+    .diagnosis-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 18px;
+    }
+
+    .diagnosis-card {
+      border: 2px solid #d3d9e3;
+      border-top: 8px solid var(--blue);
+      padding: 17px 18px;
+      background: #fff;
+    }
+
+    .diagnosis-card.op { border-top-color: var(--green); }
+    .diagnosis-card.ch { border-top-color: var(--red); }
+
+    .diagnosis-card h3 {
+      margin: 0 0 14px;
+      color: var(--navy);
+      font-size: 24px;
+      line-height: 1.16;
+    }
+
+    .diagnosis-card p {
+      margin: 0;
+      color: #2f3844;
+      font-size: 17px;
+      line-height: 1.35;
+    }
+
+    .diagnosis-card .small-label {
+      display: inline-block;
+      margin-bottom: 10px;
+      padding: 4px 8px;
+      background: var(--blue);
+      color: #fff;
+      font-weight: 800;
+      font-size: 15px;
+    }
+
+    .diagnosis-card.op .small-label { background: var(--green); }
+    .diagnosis-card.ch .small-label { background: var(--red); }
+
+    .rednote-band {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .rednote-label {
+      border: 2px solid #d3d9e3;
+      padding: 14px 16px;
+      color: var(--navy);
+      font-size: 21px;
+      line-height: 1.2;
+      font-weight: 800;
+      display: grid;
+      align-content: center;
+      background: #fbfcfd;
+    }
+
+    .rednote-label span {
+      display: block;
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.25;
+      font-weight: 700;
+    }
+
+    .rednote-band .quote-wall {
+      margin-top: 0;
+      height: 100%;
+    }
+
+    .rednote-band .quote {
+      min-height: 0;
+      height: 100%;
+    }
+
+    .slide2-architecture {
+      height: 690px;
+      padding: 22px 16px 0;
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      grid-template-rows: 1fr 188px;
+      gap: 20px 24px;
+    }
+
+    .pressure-panel {
+      border: 2px solid #d3d9e3;
+      padding: 18px;
+      background: #fff;
+      display: grid;
+      grid-template-rows: auto auto auto 1fr;
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 2px solid var(--mid-blue);
+      padding-bottom: 10px;
+      margin-bottom: 14px;
+    }
+
+    .panel-head .num {
+      width: 40px;
+      height: 40px;
+      background: var(--blue);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 23px;
+      font-weight: 800;
+    }
+
+    .panel-head h2 {
+      margin: 0;
+      color: var(--ink);
+      font-size: 26px;
+      line-height: 1.12;
+      font-weight: 800;
+    }
+
+    .pressure-panel .metric-box {
+      border: 0;
+      padding: 4px 0 0;
+    }
+
+    .pressure-takeaway {
+      margin-top: 12px;
+      border: 2px dashed var(--dash);
+      padding: 12px 14px;
+      color: var(--navy);
+      font-size: 20px;
+      line-height: 1.32;
+      font-weight: 800;
+      align-self: end;
+    }
+
+    .pressure-drivers {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .driver {
+      border: 1px solid #ccd4df;
+      background: #f8fafc;
+      padding: 10px;
+      min-height: 82px;
+    }
+
+    .driver b {
+      display: block;
+      color: var(--navy);
+      font-size: 16px;
+      line-height: 1.15;
+      margin-bottom: 6px;
+    }
+
+    .driver span {
+      display: block;
+      color: #4f5661;
+      font-size: 13px;
+      line-height: 1.25;
+    }
+
+    .behavior-panel {
+      border: 2px solid #d3d9e3;
+      padding: 18px 18px 16px;
+      background: #fff;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    .behavior-map {
+      display: grid;
+      grid-template-columns: 1fr 36px 1fr 36px 1fr;
+      gap: 10px;
+      margin-top: 14px;
+      align-items: stretch;
+    }
+
+    .behavior-step {
+      background: #f8fafc;
+      border: 1px solid #ccd4df;
+      padding: 14px;
+      min-height: 255px;
+    }
+
+    .behavior-step h3 {
+      margin: 0 0 12px;
+      color: var(--navy);
+      font-size: 23px;
+      line-height: 1.12;
+    }
+
+    .behavior-step p {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.38;
+    }
+
+    .relationship-asset-strip {
+      margin-top: 14px;
+      border: 2px dashed var(--dash);
+      padding: 10px 14px;
+      color: var(--navy);
+      font-size: 20px;
+      line-height: 1.25;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .behavior-arrow {
+      display: grid;
+      place-items: center;
+      color: var(--blue);
+      font-size: 34px;
+      font-weight: 800;
+    }
+
+    .ai-gap-panel {
+      grid-column: 1 / span 2;
+      border: 2px solid #d3d9e3;
+      padding: 16px 18px;
+      display: grid;
+      grid-template-columns: 0.72fr 1.18fr 0.36fr 0.96fr;
+      gap: 18px;
+      align-items: center;
+      background: #fff;
+    }
+
+    .ai-gap-panel h2 {
+      margin: 0;
+      color: var(--navy);
+      font-size: 25px;
+      line-height: 1.15;
+    }
+
+    .layer-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .layer {
+      border: 1px solid #ccd4df;
+      background: #f8fafc;
+      padding: 12px 12px;
+      min-height: 105px;
+    }
+
+    .layer.active {
+      border-color: var(--green);
+      background: #f6fbf9;
+    }
+
+    .layer b {
+      display: block;
+      color: var(--navy);
+      font-size: 18px;
+      margin-bottom: 7px;
+    }
+
+    .layer span {
+      display: block;
+      font-size: 14px;
+      line-height: 1.28;
+      color: #4f5661;
+    }
+
+    .so-what {
+      border: 2px dashed var(--blue);
+      padding: 13px 16px;
+      font-size: 20px;
+      line-height: 1.32;
+      color: var(--navy);
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .gap-arrow {
+      color: var(--blue);
+      font-size: 34px;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .slide3-architecture {
+      height: 690px;
+      padding: 22px 16px 0;
+      display: grid;
+      grid-template-columns: 0.38fr 0.62fr;
+      grid-template-rows: 310px 326px;
+      gap: 20px 24px;
+    }
+
+    .brand-dna-panel {
+      border: 2px solid #d3d9e3;
+      padding: 18px;
+      background: #fff;
+      grid-row: 1 / span 2;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    .dna-core {
+      position: relative;
+      min-height: 390px;
+      margin-top: 10px;
+    }
+
+    .dna-token {
+      position: absolute;
+      width: 47%;
+      min-height: 96px;
+      border: 1px solid #ccd4df;
+      background: #f8fafc;
+      padding: 12px;
+      display: grid;
+      align-content: center;
+    }
+
+    .dna-token.bold { left: 0; top: 8px; }
+    .dna-token.expression { right: 0; top: 92px; }
+    .dna-token.convention { left: 0; bottom: 86px; }
+    .dna-token.young { right: 0; bottom: 2px; }
+
+    .dna-center {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 190px;
+      height: 190px;
+      transform: translate(-50%, -50%);
+      border: 3px solid var(--blue);
+      background: #fbfdff;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      color: var(--navy);
+      font-size: 24px;
+      line-height: 1.12;
+      font-weight: 800;
+    }
+
+    .dna-token b {
+      color: var(--navy);
+      font-size: 22px;
+      line-height: 1.14;
+    }
+
+    .dna-token span {
+      margin-top: 4px;
+      color: #4f5661;
+      font-size: 14px;
+      line-height: 1.25;
+    }
+
+    .consumer-language-panel {
+      border: 2px solid #d3d9e3;
+      padding: 18px;
+      background: #fff;
+    }
+
+    .language-clusters {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: 1.08fr 1fr 1fr 1.04fr;
+      gap: 12px;
+    }
+
+    .cluster {
+      border: 1px solid #ccd4df;
+      background: #fbfcfd;
+      padding: 12px;
+      min-height: 120px;
+      display: grid;
+      align-content: center;
+    }
+
+    .cluster b {
+      display: block;
+      color: var(--navy);
+      font-size: 17px;
+      margin-bottom: 7px;
+    }
+
+    .cluster span {
+      display: block;
+      font-size: 14px;
+      line-height: 1.28;
+      color: #2f3844;
+      font-weight: 700;
+    }
+
+    .language-path {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: 1fr 32px 1fr 32px 1fr;
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .path-step {
+      border: 1px solid #ccd4df;
+      background: #f8fafc;
+      padding: 10px 12px;
+      min-height: 72px;
+    }
+
+    .path-step b {
+      display: block;
+      color: var(--navy);
+      font-size: 15px;
+      line-height: 1.15;
+      margin-bottom: 5px;
+    }
+
+    .path-step span {
+      color: #4f5661;
+      font-size: 13px;
+      line-height: 1.25;
+      display: block;
+    }
+
+    .path-arrow {
+      display: grid;
+      place-items: center;
+      color: var(--blue);
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    .transformation-panel {
+      border: 2px solid #d3d9e3;
+      background: #fff;
+      padding: 14px 18px;
+      display: grid;
+      grid-template-columns: 0.88fr 1.24fr 0.88fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .transform-box {
+      border-left: 8px solid var(--green);
+      padding: 10px 14px;
+      background: #f8fafc;
+    }
+
+    .transform-box.challenge {
+      border-left-color: var(--red);
+    }
+
+    .transform-box h3 {
+      margin: 0 0 8px;
+      color: var(--navy);
+      font-size: 23px;
+      line-height: 1.12;
+    }
+
+    .transform-box p {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.32;
+      color: #2f3844;
+    }
+
+    .curator-box {
+      border: 2px dashed var(--blue);
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 12px;
+      color: var(--navy);
+      font-size: 24px;
+      line-height: 1.2;
+      font-weight: 800;
+      background: #fbfdff;
+    }
+
+    .diagnosis-bridge {
+      border: 2px dashed var(--blue);
+      background: #fbfdff;
+      padding: 12px 16px;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 8px;
+    }
+
+    .diagnosis-bridge h3 {
+      margin: 0 0 6px;
+      color: var(--navy);
+      font-size: 22px;
+      line-height: 1.1;
+      text-align: center;
+    }
+
+    .diagnosis-stack {
+      display: grid;
+      grid-template-rows: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .diagnosis-row {
+      border: 1px solid #ccd4df;
+      background: #fff;
+      padding: 8px 12px;
+      display: grid;
+      grid-template-columns: 94px 1fr;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .diagnosis-row b {
+      color: var(--navy);
+      font-size: 15px;
+      line-height: 1.15;
+    }
+
+    .diagnosis-row span {
+      color: #2f3844;
+      font-size: 13px;
+      line-height: 1.2;
+    }
+
+    .diagnosis-row.risk {
+      border-color: #d7bdc7;
+      background: #fffafb;
+    }
+
+    .diagnosis-row.risk b {
+      color: var(--red);
+    }
+
+    .slide2-redesign {
+      height: 690px;
+      padding: 22px 16px 0;
+      display: grid;
+      grid-template-rows: 116px 360px 174px;
+      gap: 18px;
+    }
+
+    .signal-strip {
+      display: grid;
+      grid-template-columns: 0.88fr 1fr 1fr 1fr;
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .strip-lead {
+      border-left: 8px solid var(--blue);
+      background: #fff;
+      border-top: 2px solid #d3d9e3;
+      border-right: 2px solid #d3d9e3;
+      border-bottom: 2px solid #d3d9e3;
+      padding: 14px 18px;
+      display: grid;
+      align-content: center;
+    }
+
+    .strip-lead .eyebrow,
+    .geo-card .eyebrow,
+    .swot-card .eyebrow {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.1;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .strip-lead b {
+      margin-top: 8px;
+      color: var(--navy);
+      font-size: 24px;
+      line-height: 1.15;
+    }
+
+    .signal-tile {
+      position: relative;
+      background: #fff;
+      border: 2px solid #d3d9e3;
+      padding: 13px 16px;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 88px 1fr;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .signal-tile::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 8px;
+      background: var(--blue);
+    }
+
+    .signal-tile.green::before { background: var(--green); }
+    .signal-tile.muted::before { background: #879bbf; }
+
+    .signal-number {
+      color: var(--navy);
+      font-size: 31px;
+      line-height: 1;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .signal-number small {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.1;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .signal-copy b {
+      display: block;
+      color: var(--navy);
+      font-size: 18px;
+      line-height: 1.15;
+      margin-bottom: 5px;
+    }
+
+    .signal-copy span {
+      color: #4f5661;
+      font-size: 14px;
+      line-height: 1.25;
+      display: block;
+    }
+
+    .migration-lane {
+      display: grid;
+      grid-template-columns: 1fr 54px 1fr 54px 1fr;
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .geo-card {
+      position: relative;
+      border: 2px solid #d3d9e3;
+      background: #fff;
+      padding: 20px 20px 18px;
+      display: grid;
+      grid-template-rows: auto auto 1fr auto;
+      overflow: hidden;
+    }
+
+    .geo-card.now {
+      border-color: var(--blue);
+      background: #f7faff;
+    }
+
+    .geo-card.ai {
+      border-color: var(--green);
+      background: #f6fbf9;
+    }
+
+    .geo-card::after {
+      content: "";
+      position: absolute;
+      right: -32px;
+      top: 50%;
+      width: 64px;
+      height: 64px;
+      border-top: 2px solid #d3d9e3;
+      border-right: 2px solid #d3d9e3;
+      background: inherit;
+      transform: translateY(-50%) rotate(45deg);
+    }
+
+    .geo-card.ai::after {
+      display: none;
+    }
+
+    .geo-card h2 {
+      margin: 9px 0 16px;
+      color: var(--navy);
+      font-size: 30px;
+      line-height: 1.08;
+      font-weight: 800;
+    }
+
+    .geo-card ul {
+      margin: 0;
+      padding-left: 20px;
+      font-size: 19px;
+      line-height: 1.35;
+    }
+
+    .geo-card li {
+      margin-bottom: 10px;
+    }
+
+    .geo-card .asset-note {
+      margin-top: 16px;
+      border-top: 2px solid #dfe3e8;
+      padding-top: 12px;
+      color: var(--navy);
+      font-size: 18px;
+      line-height: 1.25;
+      font-weight: 800;
+    }
+
+    .lane-arrow {
+      display: grid;
+      place-items: center;
+      color: var(--blue);
+      font-size: 40px;
+      font-weight: 800;
+    }
+
+    .ai-upgrade-band {
+      display: grid;
+      grid-template-columns: 0.76fr 1.42fr 1.02fr;
+      gap: 18px;
+      align-items: stretch;
+      border: 2px solid #d3d9e3;
+      background: #fff;
+      padding: 15px 18px;
+    }
+
+    .band-label {
+      display: grid;
+      align-content: center;
+      border-left: 8px solid var(--blue);
+      padding-left: 16px;
+    }
+
+    .band-label b {
+      color: var(--navy);
+      font-size: 28px;
+      line-height: 1.1;
+    }
+
+    .band-label span {
+      margin-top: 8px;
+      color: #4f5661;
+      font-size: 15px;
+      line-height: 1.25;
+    }
+
+    .maturity-steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      align-items: end;
+    }
+
+    .maturity-step {
+      border: 1px solid #ccd4df;
+      background: #f8fafc;
+      padding: 10px 12px;
+      display: grid;
+      align-content: end;
+      min-height: 98px;
+    }
+
+    .maturity-step.mid { min-height: 118px; }
+    .maturity-step.active {
+      min-height: 138px;
+      border-color: var(--green);
+      background: #f6fbf9;
+    }
+
+    .maturity-step b {
+      color: var(--navy);
+      font-size: 17px;
+      line-height: 1.12;
+      margin-bottom: 6px;
+    }
+
+    .maturity-step span {
+      color: #4f5661;
+      font-size: 13px;
+      line-height: 1.25;
+    }
+
+    .implication-ribbon {
+      position: relative;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      color: var(--navy);
+      font-size: 21px;
+      line-height: 1.27;
+      font-weight: 800;
+      border: 2px dashed var(--blue);
+      padding: 13px 18px 13px 30px;
+      background: #fbfdff;
+    }
+
+    .implication-ribbon::before {
+      content: "";
+      position: absolute;
+      left: -1px;
+      top: -1px;
+      bottom: -1px;
+      width: 22px;
+      background: var(--blue);
+      clip-path: polygon(0 0, 100% 50%, 0 100%);
+    }
+
+    .slide3-redesign {
+      height: 690px;
+      padding: 22px 16px 0;
+      display: grid;
+      grid-template-rows: 66px 486px 92px;
+      gap: 14px;
+    }
+
+    .diagnosis-primer {
+      display: grid;
+      grid-template-columns: 0.68fr 1fr 1fr 1fr;
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .primer-lead {
+      border-left: 8px solid var(--blue);
+      border-top: 2px solid #d3d9e3;
+      border-right: 2px solid #d3d9e3;
+      border-bottom: 2px solid #d3d9e3;
+      background: #fff;
+      padding: 8px 14px;
+      display: grid;
+      align-content: center;
+      color: var(--navy);
+      font-size: 17px;
+      line-height: 1.15;
+      font-weight: 800;
+    }
+
+    .primer-pill {
+      border: 1px solid #ccd4df;
+      background: #f8fafc;
+      padding: 7px 12px;
+      display: grid;
+      align-content: center;
+    }
+
+    .primer-pill b {
+      color: var(--navy);
+      font-size: 15px;
+      line-height: 1.1;
+      margin-bottom: 3px;
+    }
+
+    .primer-pill span {
+      color: #4f5661;
+      font-size: 11px;
+      line-height: 1.22;
+    }
+
+    .swot-tension {
+      display: grid;
+      grid-template-columns: 1fr 184px 1fr;
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .swot-column {
+      border: 2px solid #d3d9e3;
+      background: #fff;
+      padding: 14px 16px 13px;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 11px;
+    }
+
+    .swot-heading {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      border-bottom: 2px solid var(--mid-blue);
+      padding-bottom: 9px;
+    }
+
+    .swot-heading .num {
+      width: 38px;
+      height: 38px;
+      background: var(--green);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      font-weight: 800;
+    }
+
+    .swot-column.challenge .swot-heading .num { background: var(--red); }
+
+    .swot-heading h2 {
+      margin: 0;
+      color: var(--ink);
+      font-size: 24px;
+      line-height: 1.1;
+      font-weight: 800;
+    }
+
+    .swot-stack {
+      display: grid;
+      grid-template-rows: repeat(3, 1fr);
+      gap: 9px;
+    }
+
+    .swot-column.challenge .swot-stack {
+      grid-template-rows: repeat(4, 1fr);
+    }
+
+    .swot-card {
+      position: relative;
+      border: 1px solid #ccd4df;
+      background: #fbfcfd;
+      padding: 9px 12px 9px 18px;
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 11px;
+      align-items: start;
+      overflow: hidden;
+    }
+
+    .swot-card::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 7px;
+      background: var(--green);
+    }
+
+    .swot-column.challenge .swot-card::before { background: var(--red); }
+
+    .swot-index {
+      width: 30px;
+      height: 30px;
+      background: var(--green);
+      color: #fff;
+      font-size: 17px;
+      line-height: 1;
+      font-weight: 800;
+      display: grid;
+      place-items: center;
+    }
+
+    .swot-column.challenge .swot-index { background: var(--red); }
+
+    .swot-copy b {
+      display: block;
+      color: var(--navy);
+      font-size: 17px;
+      line-height: 1.12;
+      margin-bottom: 4px;
+    }
+
+    .swot-copy span {
+      display: block;
+      color: #36404b;
+      font-size: 12px;
+      line-height: 1.23;
+    }
+
+    .swot-proof {
+      display: inline-block;
+      margin-top: 5px;
+      color: #68727f;
+      font-size: 10px;
+      line-height: 1.18;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .tension-core {
+      position: relative;
+      display: grid;
+      grid-template-rows: 1fr auto 1fr;
+      align-items: stretch;
+    }
+
+    .tension-wedge {
+      background: #eef4ff;
+      border: 2px solid #d3d9e3;
+      display: grid;
+      place-items: center;
+      color: var(--blue);
+      font-size: 14px;
+      line-height: 1.2;
+      font-weight: 800;
+      text-align: center;
+      padding: 12px;
+      clip-path: polygon(0 0, 100% 14%, 100% 86%, 0 100%);
+    }
+
+    .tension-wedge.bottom {
+      background: #fff5f8;
+      color: var(--red);
+      clip-path: polygon(0 14%, 100% 0, 100% 100%, 0 86%);
+    }
+
+    .tension-diamond {
+      margin: -4px auto;
+      width: 136px;
+      height: 136px;
+      background: #fbfdff;
+      border: 3px solid var(--blue);
+      transform: rotate(45deg);
+      display: grid;
+      place-items: center;
+      z-index: 2;
+    }
+
+    .tension-diamond span {
+      transform: rotate(-45deg);
+      display: block;
+      width: 102px;
+      color: var(--navy);
+      text-align: center;
+      font-size: 14px;
+      line-height: 1.16;
+      font-weight: 800;
+    }
+
+    .strategic-ribbon {
+      position: relative;
+      border: 2px dashed var(--blue);
+      background: #fbfdff;
+      display: grid;
+      grid-template-columns: 0.34fr 1fr;
+      gap: 18px;
+      align-items: center;
+      padding: 10px 22px 10px 28px;
+    }
+
+    .strategic-ribbon::before {
+      content: "";
+      position: absolute;
+      left: -1px;
+      top: -1px;
+      bottom: -1px;
+      width: 18px;
+      background: var(--blue);
+      clip-path: polygon(0 0, 100% 50%, 0 100%);
+    }
+
+    .strategic-ribbon b {
+      color: var(--navy);
+      font-size: 19px;
+      line-height: 1.13;
+    }
+
+    .strategic-ribbon span {
+      color: #2f3844;
+      font-size: 16px;
+      line-height: 1.28;
+      font-weight: 700;
+    }
+
+    .consulting-grid-2 {
+      height: 690px;
+      padding: 24px 16px 0;
+      display: grid;
+      grid-template-columns: 1.18fr 0.82fr;
+      gap: 26px;
+      position: relative;
+    }
+
+    .consulting-grid-2::after,
+    .consulting-grid-3::after {
+      content: "";
+      position: absolute;
+      top: 24px;
+      bottom: 8px;
+      border-left: 3px dashed #c7cbd2;
+    }
+
+    .consulting-grid-2::after { left: calc(16px + (100% - 32px - 26px) * 0.59 + 13px); }
+
+    .consulting-section {
+      min-width: 0;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 16px;
+    }
+
+    .consulting-section-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 2px solid var(--mid-blue);
+      padding-bottom: 10px;
+    }
+
+    .consulting-section-head .num {
+      width: 46px;
+      height: 46px;
+      background: var(--blue);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 27px;
+      font-weight: 800;
+    }
+
+    .consulting-section-head h2 {
+      margin: 0;
+      color: var(--ink);
+      font-size: 30px;
+      line-height: 1.08;
+      font-weight: 800;
+    }
+
+    .market-analysis-body {
+      display: grid;
+      grid-template-rows: 170px 174px 138px;
+      gap: 16px;
+    }
+
+    .evidence-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .evidence-stat {
+      position: relative;
+      min-height: 150px;
+      border: 1px solid #cfd6df;
+      background: #fbfcfd;
+      padding: 16px 16px 13px;
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      overflow: hidden;
+    }
+
+    .evidence-stat::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 8px;
+      background: var(--blue);
+    }
+
+    .evidence-stat.green::before { background: var(--green); }
+    .evidence-stat.muted::before { background: #879bbf; }
+
+    .evidence-stat .big {
+      margin-top: 7px;
+      color: var(--navy);
+      font-size: 38px;
+      line-height: 1;
+      font-weight: 800;
+    }
+
+    .evidence-stat b {
+      color: var(--ink);
+      font-size: 19px;
+      line-height: 1.15;
+      margin-top: 8px;
+    }
+
+    .evidence-stat span {
+      color: #4f5661;
+      font-size: 14px;
+      line-height: 1.25;
+      align-self: end;
+    }
+
+    .relationship-shift {
+      display: grid;
+      grid-template-columns: 1fr 40px 1fr 40px 1fr;
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .shift-box {
+      border: 1px solid #ccd4df;
+      background: #f8fafc;
+      padding: 13px 14px;
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+    }
+
+    .shift-box.highlight {
+      border: 2px solid var(--blue);
+      background: #f7faff;
+    }
+
+    .shift-box.final {
+      border: 2px solid var(--green);
+      background: #f6fbf9;
+    }
+
+    .shift-label {
+      color: var(--muted);
+      font-weight: 800;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-bottom: 7px;
+    }
+
+    .shift-box b {
+      color: var(--navy);
+      font-size: 21px;
+      line-height: 1.12;
+      margin-bottom: 8px;
+    }
+
+    .shift-box ul {
+      margin: 0;
+      padding-left: 18px;
+      font-size: 15px;
+      line-height: 1.28;
+    }
+
+    .shift-arrow {
+      display: grid;
+      place-items: center;
+      color: var(--blue);
+      font-size: 28px;
+      font-weight: 800;
+    }
+
+    .dashed-conclusion {
+      border: 2px dashed var(--blue);
+      background: #fbfdff;
+      padding: 16px 20px;
+      display: grid;
+      grid-template-columns: 0.28fr 1fr;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .dashed-conclusion b {
+      color: var(--navy);
+      font-size: 25px;
+      line-height: 1.13;
+    }
+
+    .dashed-conclusion span {
+      color: #111820;
+      font-size: 20px;
+      line-height: 1.28;
+      font-weight: 700;
+    }
+
+    .ai-analysis-body {
+      display: grid;
+      grid-template-rows: 408px 94px;
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .ai-ladder {
+      display: grid;
+      grid-template-columns: 0.92fr 1.08fr;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .ladder-stages {
+      display: grid;
+      grid-template-rows: repeat(3, 1fr);
+      gap: 13px;
+    }
+
+    .ladder-stage {
+      background: #0d4595;
+      color: #fff;
+      border-radius: 6px;
+      min-height: 72px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      font-size: 19px;
+      line-height: 1.13;
+      font-weight: 800;
+      box-shadow: inset 0 -10px 0 rgba(0,0,0,0.06);
+    }
+
+    .ladder-stage.light {
+      background: #517ccd;
+    }
+
+    .ladder-stage.green {
+      background: var(--green);
+    }
+
+    .ladder-arrow-down {
+      text-align: center;
+      color: #91a9d7;
+      font-size: 28px;
+      line-height: 0.55;
+      font-weight: 800;
+    }
+
+    .ai-measures {
+      display: grid;
+      grid-template-rows: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .measure-row {
+      border-bottom: 1px solid #d8dde5;
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .measure-icon {
+      width: 34px;
+      height: 34px;
+      border: 2px solid var(--blue);
+      color: var(--blue);
+      display: grid;
+      place-items: center;
+      font-size: 21px;
+      font-weight: 800;
+    }
+
+    .measure-row b {
+      display: block;
+      color: var(--navy);
+      font-size: 18px;
+      line-height: 1.13;
+    }
+
+    .measure-row span {
+      color: #4f5661;
+      font-size: 13px;
+      line-height: 1.22;
+    }
+
+    .ai-note-box {
+      border: 2px dashed var(--blue);
+      background: #fbfdff;
+      padding: 12px 18px;
+      text-align: center;
+      display: grid;
+      align-content: center;
+    }
+
+    .ai-note-box b {
+      color: var(--navy);
+      font-size: 20px;
+      line-height: 1.22;
+    }
+
+    .ai-note-box span {
+      display: block;
+      margin-top: 5px;
+      color: #111820;
+      font-size: 15px;
+      line-height: 1.25;
+    }
+
+    .consulting-grid-3 {
+      height: 690px;
+      padding: 24px 16px 0;
+      display: grid;
+      grid-template-columns: 1.03fr 0.97fr;
+      gap: 28px;
+      position: relative;
+    }
+
+    .consulting-grid-3::after { left: calc(16px + (100% - 32px - 28px) * 0.515 + 14px); }
+
+    .opportunity-body {
+      display: grid;
+      grid-template-rows: 260px 104px 106px;
+      gap: 14px;
+    }
+
+    .opportunity-map {
+      display: grid;
+      grid-template-columns: 0.88fr 1.12fr;
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .language-cloud {
+      border: 1px solid #ccd4df;
+      background: #f8fafc;
+      padding: 15px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cloud-word {
+      position: absolute;
+      color: #315eb3;
+      font-weight: 800;
+      line-height: 1;
+      opacity: 0.92;
+      white-space: nowrap;
+    }
+
+    .w1 { font-size: 34px; left: 26px; top: 34px; }
+    .w2 { font-size: 25px; left: 178px; top: 24px; color: #6f93d4; }
+    .w3 { font-size: 22px; left: 42px; top: 91px; color: #1f6f63; }
+    .w4 { font-size: 18px; left: 150px; top: 92px; color: #8a1538; }
+    .w5 { font-size: 18px; left: 118px; top: 134px; color: #4f5661; }
+
+    .opportunity-list {
+      display: grid;
+      grid-template-rows: repeat(3, 1fr);
+      gap: 9px;
+    }
+
+    .opportunity-line {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 10px;
+      align-items: start;
+      border-bottom: 1px solid #d8dde5;
+      padding-bottom: 8px;
+    }
+
+    .opportunity-line .badge {
+      width: 30px;
+      height: 30px;
+      background: var(--green);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .opportunity-line b {
+      color: var(--navy);
+      font-size: 18px;
+      line-height: 1.12;
+    }
+
+    .opportunity-line span {
+      display: block;
+      margin-top: 3px;
+      color: #36404b;
+      font-size: 13px;
+      line-height: 1.22;
+    }
+
+    .culture-flow {
+      border: 1px solid #ccd4df;
+      background: #fff;
+      padding: 10px 14px;
+      display: grid;
+      grid-template-columns: 1fr 28px 1fr 28px 1fr;
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .culture-step {
+      background: #f8fafc;
+      border: 1px solid #d5dbe4;
+      padding: 9px;
+      text-align: center;
+      display: grid;
+      align-content: center;
+    }
+
+    .culture-step b {
+      color: var(--navy);
+      font-size: 15px;
+      line-height: 1.12;
+    }
+
+    .culture-step span {
+      color: #4f5661;
+      font-size: 11px;
+      line-height: 1.2;
+      margin-top: 5px;
+    }
+
+    .culture-arrow {
+      display: grid;
+      place-items: center;
+      color: var(--blue);
+      font-size: 23px;
+      font-weight: 800;
+    }
+
+    .opportunity-conclusion {
+      border: 2px dashed var(--blue);
+      padding: 12px 18px;
+      color: var(--navy);
+      font-size: 20px;
+      line-height: 1.25;
+      font-weight: 800;
+      display: grid;
+      align-content: center;
+    }
+
+    .challenge-body {
+      display: grid;
+      grid-template-rows: 310px 174px 1fr;
+      gap: 14px;
+    }
+
+    .challenge-matrix {
+      display: grid;
+      grid-template-columns: 140px 1fr 1fr;
+      grid-template-rows: 45px repeat(4, 1fr);
+      border: 1px solid #cfd6df;
+      background: #fff;
+    }
+
+    .matrix-cell {
+      border-right: 1px solid #d8dde5;
+      border-bottom: 1px solid #d8dde5;
+      padding: 8px 10px;
+      display: grid;
+      align-content: center;
+      min-width: 0;
+    }
+
+    .matrix-cell.header {
+      background: #e8eef9;
+      color: var(--navy);
+      font-weight: 800;
+      text-align: center;
+      font-size: 15px;
+    }
+
+    .matrix-cell.axis {
+      background: #f1f3f6;
+      color: var(--navy);
+      font-weight: 800;
+      font-size: 15px;
+      line-height: 1.13;
+    }
+
+    .matrix-cell.risk {
+      color: #2f3844;
+      font-size: 13px;
+      line-height: 1.2;
+    }
+
+    .risk-level {
+      color: var(--red);
+      font-weight: 800;
+      font-size: 15px;
+      margin-bottom: 3px;
+    }
+
+    .challenge-principles {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .principle {
+      border: 1px solid #ccd4df;
+      background: #f8fafc;
+      padding: 13px 12px;
+      text-align: center;
+      display: grid;
+      align-content: center;
+    }
+
+    .principle b {
+      color: var(--navy);
+      font-size: 17px;
+      line-height: 1.12;
+    }
+
+    .principle span {
+      color: #4f5661;
+      margin-top: 6px;
+      font-size: 12px;
+      line-height: 1.18;
+    }
+
+    .challenge-conclusion {
+      border: 2px dashed var(--blue);
+      padding: 13px 18px;
+      display: grid;
+      align-content: center;
+      color: var(--navy);
+      font-size: 20px;
+      line-height: 1.22;
+      font-weight: 800;
+    }
+
+    .source {
+      flex: 1;
+    }
+
+    .page-no {
+      color: #858b94;
+      font-weight: 700;
+    }
+
+    @media print {
+      body { padding: 0; background: #fff; }
+      .deck { gap: 0; }
+      .slide {
+        width: 100vw;
+        height: 100vh;
+        border: 0;
+        box-shadow: none;
+        page-break-after: always;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="deck">
+    <section class="slide" aria-label="Slide 2">
+      <div class="progress">
+        <span>Strategic Summary</span><span class="sep">&gt;&gt;</span>
+        <span class="active">Market &amp; Brand Diagnosis</span><span class="sep">&gt;&gt;</span>
+        <span>Strategic Positioning</span><span class="sep">&gt;&gt;</span>
+        <span>AI Initiatives</span><span class="sep">&gt;&gt;</span>
+        <span>Implementation</span>
+      </div>
+      <h1 class="title">Beauty growth is shifting from one-way reach to relationship building, creating the need for AI to translate brand meaning into personal expression</h1>
+      <div class="title-rule"></div>
+
+      <div class="consulting-grid-2">
+        <div class="consulting-section">
+          <div class="consulting-section-head">
+            <div class="num">1</div>
+            <h2>Market and consumer pressure</h2>
+          </div>
+          <div class="market-analysis-body">
+            <div class="evidence-row">
+              <div class="evidence-stat">
+                <div class="big">31%</div>
+                <b>Value scrutiny</b>
+                <span>Beauty shoppers may trade down if prices rise.</span>
+              </div>
+              <div class="evidence-stat muted">
+                <div class="big">~50%</div>
+                <b>AI-assisted journey</b>
+                <span>Luxury consumers use AI for discovery and comparison.</span>
+              </div>
+              <div class="evidence-stat green">
+                <div class="big">High</div>
+                <b>Experience pull</b>
+                <span>Culture, stores and UGC become stronger differentiators.</span>
+              </div>
+            </div>
+
+            <div class="relationship-shift">
+              <div class="shift-box">
+                <div class="shift-label">Past</div>
+                <b>Reach &amp; persuasion</b>
+                <ul>
+                  <li>Brand defines beauty</li>
+                  <li>Media creates awareness</li>
+                  <li>Promotion closes conversion</li>
+                </ul>
+              </div>
+              <div class="shift-arrow">→</div>
+              <div class="shift-box highlight">
+                <div class="shift-label">Now</div>
+                <b>Identity co-production</b>
+                <ul>
+                  <li>Users search and compare</li>
+                  <li>Beauty signals scene and mood</li>
+                  <li>Peer language validates trust</li>
+                </ul>
+              </div>
+              <div class="shift-arrow">→</div>
+              <div class="shift-box final">
+                <div class="shift-label">Implication</div>
+                <b>Relationship intelligence</b>
+                <ul>
+                  <li>Understand user context</li>
+                  <li>Translate brand meaning</li>
+                  <li>Accumulate member memory</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="dashed-conclusion">
+              <b>Conclusion</b>
+              <span>The new growth asset is not exposure volume, but accumulated context, intent and expression language.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="consulting-section">
+          <div class="consulting-section-head">
+            <div class="num">2</div>
+            <h2>AI role in the relationship value chain</h2>
+          </div>
+          <div class="ai-analysis-body">
+            <div class="ai-ladder">
+              <div>
+                <div class="ladder-stages">
+                  <div class="ladder-stage light">Efficiency<br />layer</div>
+                  <div class="ladder-arrow-down">↓</div>
+                  <div class="ladder-stage">Utility<br />layer</div>
+                  <div class="ladder-arrow-down">↓</div>
+                  <div class="ladder-stage green">Relationship<br />layer</div>
+                </div>
+              </div>
+              <div class="ai-measures">
+                <div class="measure-row">
+                  <div class="measure-icon">✓</div>
+                  <div>
+                    <b>Optimize marketing operations</b>
+                    <span>Targeting, service automation, content production</span>
+                  </div>
+                </div>
+                <div class="measure-row">
+                  <div class="measure-icon">✓</div>
+                  <div>
+                    <b>Improve product-level utility</b>
+                    <span>Virtual try-on, diagnostics and recommendations</span>
+                  </div>
+                </div>
+                <div class="measure-row">
+                  <div class="measure-icon">★</div>
+                  <div>
+                    <b>Build consumer relationship assets</b>
+                    <span>Context understanding, expression translation, member memory</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="ai-note-box">
+              <b>AI should become relationship infrastructure</b>
+              <span>not only a marketing optimization tool.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <div class="source">Source: Vogue Business Beauty Index 2025; Bain/Vogue Business luxury forecast; L'Oreal Beauty Tech coverage; team analysis</div>
+        <div class="page-no">2</div>
+      </div>
+    </section>
+
+    <section class="slide" aria-label="Slide 3">
+      <div class="progress">
+        <span>Strategic Summary</span><span class="sep">&gt;&gt;</span>
+        <span class="active">Market &amp; Brand Diagnosis</span><span class="sep">&gt;&gt;</span>
+        <span>Strategic Positioning</span><span class="sep">&gt;&gt;</span>
+        <span>AI Initiatives</span><span class="sep">&gt;&gt;</span>
+        <span>Implementation</span>
+      </div>
+      <h1 class="title">YSL's opportunity is to convert existing high-end self-expression language into a scalable relationship asset, while preventing AI from diluting luxury curation</h1>
+      <div class="title-rule"></div>
+
+      <div class="consulting-grid-3">
+        <div class="consulting-section">
+          <div class="consulting-section-head">
+            <div class="num">1</div>
+            <h2>External opportunities</h2>
+          </div>
+          <div class="opportunity-body">
+            <div class="opportunity-map">
+              <div class="language-cloud">
+                <span class="cloud-word w1">premium</span>
+                <span class="cloud-word w2">persona</span>
+                <span class="cloud-word w3">gifting</span>
+                <span class="cloud-word w4">aesthetic code</span>
+                <span class="cloud-word w5">first luxury beauty</span>
+              </div>
+              <div class="opportunity-list">
+                <div class="opportunity-line">
+                  <div class="badge">A</div>
+                  <div>
+                    <b>Expression over status</b>
+                    <span>Rednote language frames YSL as a way to project taste, attitude and social presence.</span>
+                  </div>
+                </div>
+                <div class="opportunity-line">
+                  <div class="badge">B</div>
+                  <div>
+                    <b>Milestone and gifting occasions</b>
+                    <span>Lipstick, fragrance and gift boxes connect premium beauty to romance, adulthood and social ties.</span>
+                  </div>
+                </div>
+                <div class="opportunity-line">
+                  <div class="badge">C</div>
+                  <div>
+                    <b>Culture-led participation</b>
+                    <span>YSL's Gen Z playbook already points to local venues, friends, UGC and real-life experience.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="culture-flow">
+              <div class="culture-step">
+                <b>Product symbol</b>
+                <span>lipstick · fragrance · gift box</span>
+              </div>
+              <div class="culture-arrow">→</div>
+              <div class="culture-step">
+                <b>Personal expression</b>
+                <span>mood · persona · occasion</span>
+              </div>
+              <div class="culture-arrow">→</div>
+              <div class="culture-step">
+                <b>Relationship asset</b>
+                <span>content · membership · repeat touchpoints</span>
+              </div>
+            </div>
+
+            <div class="opportunity-conclusion">
+              Opportunity: convert YSL's existing self-expression language into reusable relationship assets across product, content, retail and membership.
+            </div>
+          </div>
+        </div>
+
+        <div class="consulting-section">
+          <div class="consulting-section-head">
+            <div class="num">2</div>
+            <h2>Internal challenges</h2>
+          </div>
+          <div class="challenge-body">
+            <div class="challenge-matrix">
+              <div class="matrix-cell header"></div>
+              <div class="matrix-cell header">Main risk</div>
+              <div class="matrix-cell header">Required guardrail</div>
+              <div class="matrix-cell axis">Luxury code</div>
+              <div class="matrix-cell risk"><div class="risk-level">High</div>Generic AI can make YSL feel like a mass-market beauty utility.</div>
+              <div class="matrix-cell risk">Controlled aesthetics, curated language and premium interaction standards.</div>
+              <div class="matrix-cell axis">Curation authority</div>
+              <div class="matrix-cell risk"><div class="risk-level">High</div>Over-personalization can let users define everything.</div>
+              <div class="matrix-cell risk">Co-creation with clear YSL taste boundaries and brand review logic.</div>
+              <div class="matrix-cell axis">China translation</div>
+              <div class="matrix-cell risk"><div class="risk-level">Medium</div>Global boldness can feel copied or over-performed.</div>
+              <div class="matrix-cell risk">Translate freedom and attitude into local Gen Z social contexts.</div>
+              <div class="matrix-cell axis">Touchpoint integration</div>
+              <div class="matrix-cell risk"><div class="risk-level">Medium</div>Campaign data may not become long-term relationship assets.</div>
+              <div class="matrix-cell risk">Connect content, store, e-commerce and CRM around shared member signals.</div>
+            </div>
+
+            <div class="challenge-principles">
+              <div class="principle">
+                <b>Preserve taste</b>
+                <span>AI outputs must feel curated, not generated.</span>
+              </div>
+              <div class="principle">
+                <b>Localize attitude</b>
+                <span>Translate YSL codes into China Gen Z language.</span>
+              </div>
+              <div class="principle">
+                <b>Close the loop</b>
+                <span>Every interaction should feed member and retail assets.</span>
+              </div>
+            </div>
+
+            <div class="challenge-conclusion">
+              Implication: YSL's AI cannot be a generic beauty assistant; it must scale self-expression while protecting luxury curation.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <div class="source">Source: L'Oreal YSL Beauty official page; Vogue Business YSL Gen Z playbook; Rednote quick public-content observation, 2026-06-28; team analysis</div>
+        <div class="page-no">3</div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
